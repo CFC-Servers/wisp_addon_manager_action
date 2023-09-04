@@ -26735,6 +26735,7 @@ const readControlFile = (path) => {
     }
 };
 try {
+    console.log("Starting addon manager");
     const domain = core.getInput("domain");
     const uuid = core.getInput("uuid");
     const serverName = core.getInput("name");
@@ -26747,7 +26748,7 @@ try {
     if (controlFile) {
         controlFileContents = readControlFile(controlFile);
     }
-    ManageAddons({
+    const config = {
         domain: domain,
         uuid: uuid,
         serverName: serverName,
@@ -26756,7 +26757,9 @@ try {
         alertWebhook: alertWebhook,
         failureWebhook: failureWebhook,
         controlFile: controlFileContents,
-    }).then(() => {
+    };
+    console.log("Config: ", JSON.stringify(config));
+    ManageAddons(config).then(() => {
         core.setOutput("success", true);
     });
 }
