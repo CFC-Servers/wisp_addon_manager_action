@@ -8,6 +8,7 @@ declare global {
   var fetch: typeof nodeFetch;
 }
 globalThis.Headers = nodeFetch.Headers;
+globalThis.fetch = nodeFetch;
 
 
 const readControlFile = (path: string) => {
