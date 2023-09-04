@@ -21614,6 +21614,18 @@ exports.visitAsync = visitAsync;
 /******/ }
 /******/ 
 /************************************************************************/
+/******/ /* webpack/runtime/compat get default export */
+/******/ (() => {
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__nccwpck_require__.n = (module) => {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			() => (module['default']) :
+/******/ 			() => (module);
+/******/ 		__nccwpck_require__.d(getter, { a: getter });
+/******/ 		return getter;
+/******/ 	};
+/******/ })();
+/******/ 
 /******/ /* webpack/runtime/create fake namespace object */
 /******/ (() => {
 /******/ 	var getProto = Object.getPrototypeOf ? (obj) => (Object.getPrototypeOf(obj)) : (obj) => (obj.__proto__);
@@ -21691,6 +21703,9 @@ __nccwpck_require__.d(build_esm_debug_namespaceObject, {
   "protocol": () => (build_esm_debug_protocol)
 });
 
+// EXTERNAL MODULE: external "fs"
+var external_fs_ = __nccwpck_require__(7147);
+var external_fs_default = /*#__PURE__*/__nccwpck_require__.n(external_fs_);
 // EXTERNAL MODULE: ./node_modules/@actions/core/lib/core.js
 var core = __nccwpck_require__(2614);
 // EXTERNAL MODULE: ./node_modules/yaml/dist/index.js
@@ -26575,6 +26590,15 @@ async function ManageAddons(config) {
 ;// CONCATENATED MODULE: ./action.ts
 
 
+
+const readControlFile = (path) => {
+    try {
+        return external_fs_default().readFileSync(path, "utf8");
+    }
+    catch (e) {
+        throw e;
+    }
+};
 (async () => {
     try {
         const domain = core.getInput("domain");
@@ -26584,6 +26608,11 @@ async function ManageAddons(config) {
         const ghPAT = core.getInput("github-token");
         const alertWebhook = core.getInput("alert-webhook");
         const failureWebhook = core.getInput("failure-webhook");
+        const controlFile = core.getInput("control-file");
+        let controlFileContents;
+        if (controlFile) {
+            controlFileContents = readControlFile(controlFile);
+        }
         await ManageAddons({
             domain: domain,
             uuid: uuid,
@@ -26591,7 +26620,8 @@ async function ManageAddons(config) {
             token: token,
             ghPAT: ghPAT,
             alertWebhook: alertWebhook,
-            failureWebhook: failureWebhook
+            failureWebhook: failureWebhook,
+            controlFile: controlFileContents,
         });
     }
     catch (e) {
