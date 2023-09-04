@@ -1,9 +1,9 @@
 {
   "name": "wisp_addon_manager_action",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "description": "Action code for the wisp addon manager",
-  "main": "dist/action.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "npx @vercel/ncc build action.ts --target es2020"
   },
