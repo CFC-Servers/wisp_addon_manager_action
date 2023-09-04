@@ -11,43 +11,43 @@ const readControlFile = (path: string) => {
     }
 }
 
-(async () => {
-    try {
-        const domain = core.getInput("domain");
-        const uuid = core.getInput("uuid");
-        const serverName = core.getInput("name");
-        const token = core.getInput("token");
-        const ghPAT = core.getInput("github-token");
-        const alertWebhook = core.getInput("alert-webhook");
-        const failureWebhook = core.getInput("failure-webhook");
-        const controlFile = core.getInput("control-file");
+try {
+    const domain = core.getInput("domain");
+    const uuid = core.getInput("uuid");
+    const serverName = core.getInput("name");
+    const token = core.getInput("token");
+    const ghPAT = core.getInput("github-token");
+    const alertWebhook = core.getInput("alert-webhook");
+    const failureWebhook = core.getInput("failure-webhook");
+    const controlFile = core.getInput("control-file");
 
 
-        let controlFileContents
-        if (controlFile) {
-            controlFileContents = readControlFile(controlFile);
-        }
-
-        await ManageAddons({
-            domain: domain,
-            uuid: uuid,
-            serverName: serverName,
-            token: token,
-            ghPAT: ghPAT,
-            alertWebhook: alertWebhook,
-            failureWebhook: failureWebhook,
-            controlFile: controlFileContents,
-        });
+    let controlFileContents
+    if (controlFile) {
+        controlFileContents = readControlFile(controlFile);
     }
-    catch (e) {
-        console.error(e);
 
-        if (e instanceof Error) {
-            core.setFailed(e.message);
-        } else if (typeof e === "string") {
-            core.setFailed(e);
-        } else {
-            core.setFailed("Unknown error");
-        }
+    ManageAddons({
+        domain: domain,
+        uuid: uuid,
+        serverName: serverName,
+        token: token,
+        ghPAT: ghPAT,
+        alertWebhook: alertWebhook,
+        failureWebhook: failureWebhook,
+        controlFile: controlFileContents,
+    }).then(() => {
+        core.setOutput("success", true);
+    });
+}
+catch (e) {
+    console.error(e);
+
+    if (e instanceof Error) {
+        core.setFailed(e.message);
+    } else if (typeof e === "string") {
+        core.setFailed(e);
+    } else {
+        core.setFailed("Unknown error");
     }
-});
+}
