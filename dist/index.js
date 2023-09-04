@@ -26587,7 +26587,7 @@ async function ManageAddons(config) {
     }
 }
 
-;// CONCATENATED MODULE: ./action.ts
+;// CONCATENATED MODULE: ./index.ts
 
 
 
