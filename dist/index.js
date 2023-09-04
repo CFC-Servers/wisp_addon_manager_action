@@ -33813,6 +33813,7 @@ const fs = __nccwpck_require__(7147);
 const core = __nccwpck_require__(2614);
 const ManageAddons = (__nccwpck_require__(3902)/* .ManageAddons */ .h);
 const fetch = __nccwpck_require__(2380);
+const { Headers } = fetch;
 const readControlFile = (path) => {
     try {
         return fs.readFileSync(path, "utf8");
