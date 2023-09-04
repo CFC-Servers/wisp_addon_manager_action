@@ -33812,8 +33812,8 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const fs = __nccwpck_require__(7147);
 const core = __nccwpck_require__(2614);
 const ManageAddons = (__nccwpck_require__(3902)/* .ManageAddons */ .h);
-const fetch = __nccwpck_require__(2380);
-globalThis.Headers = fetch.Headers;
+const nodeFetch = __nccwpck_require__(2380);
+globalThis.Headers = nodeFetch.Headers;
 const readControlFile = (path) => {
     try {
         return fs.readFileSync(path, "utf8");

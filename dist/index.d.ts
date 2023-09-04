@@ -1,5 +1,6 @@
-declare const fetch: any;
+declare const nodeFetch: any;
 declare global {
-    var Headers: typeof fetch.Headers;
+    var Headers: typeof nodeFetch.Headers;
+    var fetch: typeof nodeFetch;
 }
 export {};
