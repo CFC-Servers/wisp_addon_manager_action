@@ -1,6 +1,7 @@
 const fs = require("fs");
 const core = require('@actions/core');
 const ManageAddons = require("wisp_addon_manager").ManageAddons;
+const fetch = require("node-fetch")
 
 const readControlFile = (path: string) => {
     try {
