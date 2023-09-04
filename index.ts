@@ -1,7 +1,6 @@
-import fs from "fs";
-import * as core from "@actions/core";
-
-import { ManageAddons } from "wisp_addon_manager";
+const fs = require("fs");
+const core = require('@actions/core');
+const ManageAddons = require("wisp_addon_manager").ManageAddons;
 
 const readControlFile = (path: string) => {
     try {
