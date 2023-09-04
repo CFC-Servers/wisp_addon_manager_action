@@ -1,5 +1,16 @@
+import fs from "fs";
 import * as core from "@actions/core";
+
 import { ManageAddons } from "wisp_addon_manager";
+
+const readControlFile = (path: string) => {
+    try {
+        return fs.readFileSync(path, "utf8");
+    }
+    catch (e) {
+        throw e;
+    }
+}
 
 (async () => {
     try {
@@ -10,7 +21,13 @@ import { ManageAddons } from "wisp_addon_manager";
         const ghPAT = core.getInput("github-token");
         const alertWebhook = core.getInput("alert-webhook");
         const failureWebhook = core.getInput("failure-webhook");
+        const controlFile = core.getInput("control-file");
 
+
+        let controlFileContents
+        if (controlFile) {
+            controlFileContents = readControlFile(controlFile);
+        }
 
         await ManageAddons({
             domain: domain,
@@ -19,7 +36,8 @@ import { ManageAddons } from "wisp_addon_manager";
             token: token,
             ghPAT: ghPAT,
             alertWebhook: alertWebhook,
-            failureWebhook: failureWebhook
+            failureWebhook: failureWebhook,
+            controlFile: controlFileContents,
         });
     }
     catch (e) {
