@@ -2,14 +2,6 @@ const fs = require("fs");
 const core = require("@actions/core");
 const ManageAddons = require("wisp_addon_manager").ManageAddons;
 
-const nodeFetch = require("node-fetch");
-declare global {
-  var Headers: typeof nodeFetch.Headers;
-  var fetch: typeof nodeFetch.default;
-}
-globalThis.Headers = nodeFetch.Headers;
-globalThis.fetch = nodeFetch.default || nodeFetch;
-
 
 const readControlFile = (path: string) => {
     try {
