@@ -4,7 +4,7 @@
   "description": "Action code for the wisp addon manager",
   "main": "dist/index.js",
   "scripts": {
-    "build": "npx @vercel/ncc build index.ts --target es2021"
+    "build": "npx @vercel/ncc@0.34.0 build index.ts --target es2021"
   },
   "repository": {
     "type": "git",
