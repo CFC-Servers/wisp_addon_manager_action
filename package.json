@@ -1,11 +1,10 @@
 {
   "name": "wisp_addon_manager_action",
   "version": "0.3.4",
-  "type": "module",
   "description": "Action code for the wisp addon manager",
   "main": "dist/index.js",
   "scripts": {
-    "build": "npx @vercel/ncc build index.ts --target es2022"
+    "build": "npx @vercel/ncc build index.ts --target es2021"
   },
   "repository": {
     "type": "git",
