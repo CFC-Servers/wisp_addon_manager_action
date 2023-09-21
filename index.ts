@@ -48,8 +48,6 @@ try {
         controlFile: controlFileContents,
     }
 
-    console.log("Config: ", JSON.stringify(config));
-
     ManageAddons(config).then(() => {
         core.setOutput("success", true);
     });
