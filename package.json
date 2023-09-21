@@ -3,8 +3,9 @@
   "version": "0.3.0",
   "description": "Action code for the wisp addon manager",
   "main": "dist/index.js",
+  "type": "module",
   "scripts": {
-    "build": "npx @vercel/ncc build index.ts --target es2020"
+    "build": "npx @vercel/ncc build index.ts --target es2022"
   },
   "repository": {
     "type": "git",
