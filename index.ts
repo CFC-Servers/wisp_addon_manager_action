@@ -1,4 +1,4 @@
-const fs = require("fs").promises
+const fs = require("fs")
 const core = require("@actions/core")
 const ManageAddons = require("wisp_addon_manager").ManageAddons
 
@@ -9,48 +9,57 @@ declare global {
 globalThis.Headers = nodeFetch.Headers
 globalThis.fetch = nodeFetch.default || nodeFetch
 
-(async () => {
+const readControlFile = (path: string) => {
     try {
-        console.log("Starting addon manager")
-
-        const domain = core.getInput("domain")
-        const uuid = core.getInput("uuid")
-        const serverName = core.getInput("name")
-        const token = core.getInput("token")
-        const ghPAT = core.getInput("github-token")
-        const alertWebhook = core.getInput("alert-webhook")
-        const failureWebhook = core.getInput("failure-webhook")
-        const controlFile = core.getInput("control-file")
-
-        let controlFileContents
-        if (controlFile) {
-            controlFileContents = await fs.readFile(controlFile)
-        }
-
-        const config = {
-            domain: domain,
-            uuid: uuid,
-            serverName: serverName,
-            token: token,
-            ghPAT: ghPAT,
-            alertWebhook: alertWebhook,
-            failureWebhook: failureWebhook,
-            controlFile: controlFileContents,
-        }
-
-        await ManageAddons(config)
-        console.log("Addon manager finished successfully")
-        core.setOutput("success", true)
+        return fs.readFileSync(path, "utf8")
     }
     catch (e) {
-        console.error(e)
-
-        if (e instanceof Error) {
-            core.setFailed(e.message)
-        } else if (typeof e === "string") {
-            core.setFailed(e)
-        } else {
-            core.setFailed("Unknown error")
-        }
+        throw e
     }
-})()
+}
+
+try {
+    console.log("Starting addon manager")
+
+    const domain = core.getInput("domain")
+    const uuid = core.getInput("uuid")
+    const serverName = core.getInput("name")
+    const token = core.getInput("token")
+    const ghPAT = core.getInput("github-token")
+    const alertWebhook = core.getInput("alert-webhook")
+    const failureWebhook = core.getInput("failure-webhook")
+    const controlFile = core.getInput("control-file")
+
+    let controlFileContents
+    if (controlFile) {
+        controlFileContents = readControlFile(controlFile)
+    }
+
+    const config = {
+        domain: domain,
+        uuid: uuid,
+        serverName: serverName,
+        token: token,
+        ghPAT: ghPAT,
+        alertWebhook: alertWebhook,
+        failureWebhook: failureWebhook,
+        controlFile: controlFileContents,
+    }
+
+    console.log("Starting addon manager with config")
+    ManageAddons(config).then(() => {
+        console.log("Addon manager finished successfully")
+        core.setOutput("success", true)
+    })
+}
+catch (e) {
+    console.error(e)
+
+    if (e instanceof Error) {
+        core.setFailed(e.message)
+    } else if (typeof e === "string") {
+        core.setFailed(e)
+    } else {
+        core.setFailed("Unknown error")
+    }
+}
