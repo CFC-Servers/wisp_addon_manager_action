@@ -1,6 +1,6 @@
 {
   "name": "wisp_addon_manager_action",
-  "version": "0.3.14",
+  "version": "v1.0.1",
   "description": "Action code for the wisp addon manager",
   "main": "dist/index.js",
   "scripts": {
