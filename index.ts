@@ -46,10 +46,9 @@ try {
         controlFile: controlFileContents,
     }
 
-    console.log("Starting addon manager with config")
     ManageAddons(config).then(() => {
-        console.log("Addon manager finished successfully")
         core.setOutput("success", true)
+        process.exit(0)
     })
 }
 catch (e) {
@@ -62,4 +61,6 @@ catch (e) {
     } else {
         core.setFailed("Unknown error")
     }
+
+    process.exit(1)
 }
