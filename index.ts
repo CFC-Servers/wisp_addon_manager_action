@@ -9,12 +9,13 @@ declare global {
 globalThis.Headers = nodeFetch.Headers
 globalThis.fetch = nodeFetch.default || nodeFetch
 
-const readControlFile = (path: string) => {
+const safeReadFile = (path: string) => {
     try {
         return fs.readFileSync(path, "utf8")
     }
     catch (e) {
-        throw e
+        console.error(`Failed to read file at path: ${path}`)
+        return null
     }
 }
 
@@ -29,10 +30,16 @@ try {
     const alertWebhook = core.getInput("alert-webhook")
     const failureWebhook = core.getInput("failure-webhook")
     const controlFile = core.getInput("control-file")
+    const serverConfig = core.getInput("server-config")
 
     let controlFileContents
     if (controlFile) {
-        controlFileContents = readControlFile(controlFile)
+        controlFileContents = safeReadFile(controlFile)
+    }
+
+    let serverConfigContents
+    if (serverConfig) {
+        serverConfigContents = safeReadFile(serverConfig)
     }
 
     const config = {
@@ -44,6 +51,7 @@ try {
         alertWebhook: alertWebhook,
         failureWebhook: failureWebhook,
         controlFile: controlFileContents,
+        serverConfig: serverConfigContents
     }
 
     ManageAddons(config).then(() => {

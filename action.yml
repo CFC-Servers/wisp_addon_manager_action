@@ -35,6 +35,10 @@ inputs:
     description: "A path to your control file yaml (learn more in the README)"
     required: false
 
+  server-config:
+    description: "A path to your server.cfg file (learn more in the README)"
+    required: false
+
 runs:
   using: "node20"
   main: "dist/index.js"
